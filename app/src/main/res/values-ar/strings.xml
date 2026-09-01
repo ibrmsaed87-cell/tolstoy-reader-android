@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">قارئ تولستوي</string>
+    <string name="book_details">تفاصيل الكتاب</string>
+    <string name="reader">القارئ</string>
+    <string name="navigate_back">الرجوع</string>
+    <string name="read_book">قراءة الكتاب</string>
+    <string name="read_now">اقرأ الآن</string>
+    <string name="by_author">بقلم %1$s</string>
+    <string name="description">الوصف</string>
+    <string name="explore_works">استكشف روائع ليو تولستوي</string>
+    <string name="featured_book">كتاب مميز</string>
+    <string name="library">المكتبة</string>
+    <string name="download_offline">تنزيل للقراءة دون اتصال</string>
+    <string name="remove_download">حذف التنزيل</string>
+    <string name="needs_internet">هذا الكتاب يتطلب اتصالاً بالإنترنت أو تنزيله مسبقاً.</string>
+    <string name="chapters">الفصول</string>
+</resources>

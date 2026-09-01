@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Читатель Толстого</string>
+    <string name="book_details">Детали книги</string>
+    <string name="reader">Читатель</string>
+    <string name="navigate_back">Назад</string>
+    <string name="read_book">Читать книгу</string>
+    <string name="read_now">Читать сейчас</string>
+    <string name="by_author">Автор: %1$s</string>
+    <string name="description">Описание</string>
+    <string name="explore_works">Исследуйте творчество Льва Толстого</string>
+    <string name="featured_book">Рекомендуемая книга</string>
+    <string name="library">Библиотека</string>
+    <string name="download_offline">Скачать для чтения офлайн</string>
+    <string name="remove_download">Удалить загрузку</string>
+    <string name="needs_internet">Для этой книги требуется интернет или предварительная загрузка.</string>
+    <string name="chapters">Главы</string>
+</resources>
