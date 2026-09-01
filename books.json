@@ -1,0 +1,662 @@
+{
+  "version": 1,
+  "languages": [
+    "ar",
+    "en",
+    "ru"
+  ],
+  "notes": {
+    "cover_preference": "png_then_jpg",
+    "paths": "relative_to_public_root",
+    "ordering": "approximate_popularity_desc"
+  },
+  "books": [
+    {
+      "id": "ar-war-and-peace-book-1",
+      "language": "ar",
+      "order": 1,
+      "title": "الحرب والسلام – الجزء الأول",
+      "format": "json",
+      "file": "/books/ar/war-and-peace-book-1.json",
+      "cover": "/covers/ar/war-and-peace-ar.jpg"
+    },
+    {
+      "id": "ar-war-and-peace-book-2",
+      "language": "ar",
+      "order": 2,
+      "title": "الحرب والسلام – الجزء الثاني",
+      "format": "json",
+      "file": "/books/ar/war-and-peace-book-2.json",
+      "cover": "/covers/ar/war-and-peace-ar.jpg"
+    },
+    {
+      "id": "ar-war-and-peace-book-3",
+      "language": "ar",
+      "order": 3,
+      "title": "الحرب والسلام – الجزء الثالث",
+      "format": "json",
+      "file": "/books/ar/war-and-peace-book-3.json",
+      "cover": "/covers/ar/war-and-peace-ar.jpg"
+    },
+    {
+      "id": "ar-war-and-peace-book-4",
+      "language": "ar",
+      "order": 4,
+      "title": "الحرب والسلام – الجزء الرابع",
+      "format": "json",
+      "file": "/books/ar/war-and-peace-book-4.json",
+      "cover": "/covers/ar/war-and-peace-ar.jpg"
+    },
+    {
+      "id": "ar-anna-karenina-ar",
+      "language": "ar",
+      "order": 5,
+      "title": "آنا كارنينا",
+      "format": "json",
+      "file": "/books/ar/anna-karenina-ar.json",
+      "cover": "/covers/ar/anna-karenina-ar.jpg"
+    },
+    {
+      "id": "ar-the-death-of-ivan-ilyich-ar",
+      "language": "ar",
+      "order": 6,
+      "title": "موت إيفان إيليتش",
+      "format": "json",
+      "file": "/books/ar/the-death-of-ivan-ilyich-ar.json",
+      "cover": "/covers/ar/the-death-of-ivan-ilyich-ar.jpg"
+    },
+    {
+      "id": "ar-kreutzer-sonata-ar",
+      "language": "ar",
+      "order": 7,
+      "title": "لحن كرويتزر",
+      "format": "json",
+      "file": "/books/ar/kreutzer-sonata-ar.json",
+      "cover": "/covers/ar/kreutzer-sonata-ar.jpg"
+    },
+    {
+      "id": "ar-alb3th",
+      "language": "ar",
+      "order": 8,
+      "title": "البعث",
+      "format": "pdf",
+      "file": "/books/ar/alb3th.pdf",
+      "cover": "/covers/ar/resurrection-ar.jpg"
+    },
+    {
+      "id": "ar-gwazg",
+      "language": "ar",
+      "order": 9,
+      "title": "القوزاق",
+      "format": "pdf",
+      "file": "/books/ar/gwazg.pdf",
+      "cover": "/covers/ar/the-cossacks-ar.jpg"
+    },
+    {
+      "id": "ar-confessions-of-tolstoy",
+      "language": "ar",
+      "order": 10,
+      "title": "اعترافات تولستوي",
+      "format": "json",
+      "file": "/books/ar/confessions-of-tolstoy.json",
+      "cover": "/covers/ar/confessions-of-tolstoy-ar.png"
+    },
+    {
+      "id": "ar-sa3ada",
+      "language": "ar",
+      "order": 11,
+      "title": "سعادة الأسرة",
+      "format": "pdf",
+      "file": "/books/ar/sa3ada.pdf",
+      "cover": "/covers/ar/family-happiness-ar.jpg"
+    },
+    {
+      "id": "ar-master-and-man-ar",
+      "language": "ar",
+      "order": 12,
+      "title": "السيد والخادم",
+      "format": "json",
+      "file": "/books/ar/master-and-man-ar.json",
+      "cover": "/covers/ar/master-and-man-ar.jpg"
+    },
+    {
+      "id": "ar-what-is-art-ar",
+      "language": "ar",
+      "order": 13,
+      "title": "ما هو الفن؟",
+      "format": "json",
+      "file": "/books/ar/what-is-art-ar.json",
+      "cover": "/covers/ar/what-is-art.png"
+    },
+    {
+      "id": "ar-what-shall-we-do-ar",
+      "language": "ar",
+      "order": 14,
+      "title": "ماذا علينا أن نفعل؟",
+      "format": "json",
+      "file": "/books/ar/what-shall-we-do-ar.json",
+      "cover": "/covers/ar/what-shall-we-do-ar.jpg"
+    },
+    {
+      "id": "ar-maza",
+      "language": "ar",
+      "order": 15,
+      "title": "ماذا علينا أن نفعل؟ – نسخة PDF",
+      "format": "pdf",
+      "file": "/books/ar/maza.pdf",
+      "cover": "/covers/ar/what-shall-we-do-ar.jpg"
+    },
+    {
+      "id": "ar-trig",
+      "language": "ar",
+      "order": 16,
+      "title": "طريق الحياة",
+      "format": "pdf",
+      "file": "/books/ar/trig.pdf",
+      "cover": "/covers/ar/the-path-of-life-ar.jpg"
+    },
+    {
+      "id": "ar-on-life-ar",
+      "language": "ar",
+      "order": 17,
+      "title": "في الحياة",
+      "format": "json",
+      "file": "/books/ar/on-life-ar.json",
+      "cover": "/covers/ar/on-life-ar.jpg"
+    },
+    {
+      "id": "ar-aldeen",
+      "language": "ar",
+      "order": 18,
+      "title": "في الدين والعقل والفلسفة",
+      "format": "pdf",
+      "file": "/books/ar/aldeen.pdf",
+      "cover": "/covers/ar/religion-reason-and-philosophy-ar.jpg"
+    },
+    {
+      "id": "ar-alsolta",
+      "language": "ar",
+      "order": 19,
+      "title": "السلطة والحرية",
+      "format": "pdf",
+      "file": "/books/ar/alsolta.pdf",
+      "cover": "/covers/ar/authority-and-freedom-ar.jpg"
+    },
+    {
+      "id": "ar-end-of-love-ar",
+      "language": "ar",
+      "order": 20,
+      "title": "نهاية حب",
+      "format": "json",
+      "file": "/books/ar/end-of-love-ar.json",
+      "cover": "/covers/ar/end-of-love-ar.jpg"
+    },
+    {
+      "id": "ar-kingdom-of-hell-and-alcohol",
+      "language": "ar",
+      "order": 21,
+      "title": "مملكة جهنم والخمر",
+      "format": "json",
+      "file": "/books/ar/kingdom-of-hell-and-alcohol.json",
+      "cover": "/covers/ar/kingdom-of-hell-and-alcohol-ar.png"
+    },
+    {
+      "id": "ar-little-girls-wiser-than-men",
+      "language": "ar",
+      "order": 22,
+      "title": "فتيات صغيرات أعقل من الرجال",
+      "format": "json",
+      "file": "/books/ar/little-girls-wiser-than-men.json",
+      "cover": "/covers/ar/little-girls-wiser-than-men-ar.jpg"
+    },
+    {
+      "id": "ar-the-two-old-men-ar",
+      "language": "ar",
+      "order": 23,
+      "title": "الشيخان",
+      "format": "json",
+      "file": "/books/ar/the-two-old-men-ar.json",
+      "cover": "/covers/ar/the-two-old-men-ar.jpg"
+    },
+    {
+      "id": "ar-too-dear",
+      "language": "ar",
+      "order": 24,
+      "title": "غالي الثمن",
+      "format": "json",
+      "file": "/books/ar/too-dear.json",
+      "cover": "/covers/ar/too-dear-ar.jpg"
+    },
+    {
+      "id": "ar-surat-coffee-house",
+      "language": "ar",
+      "order": 25,
+      "title": "مقهى سورات",
+      "format": "json",
+      "file": "/books/ar/surat-coffee-house.json",
+      "cover": "/covers/ar/surat-coffee-house-ar.jpg"
+    },
+    {
+      "id": "ar-ilyas",
+      "language": "ar",
+      "order": 26,
+      "title": "إلياس",
+      "format": "json",
+      "file": "/books/ar/ilyas.json",
+      "cover": "/covers/ar/ilyas-ar.jpg"
+    },
+    {
+      "id": "ar-esarhaddon-ar",
+      "language": "ar",
+      "order": 27,
+      "title": "أسرحدون",
+      "format": "json",
+      "file": "/books/ar/esarhaddon-ar.json",
+      "cover": "/covers/ar/esarhaddon-ar.jpg"
+    },
+    {
+      "id": "ar-a-grain-as-big-as-a-hens-egg",
+      "language": "ar",
+      "order": 28,
+      "title": "حبة في حجم بيضة الدجاجة",
+      "format": "json",
+      "file": "/books/ar/a-grain-as-big-as-a-hens-egg.json",
+      "cover": "/covers/ar/a-grain-as-big-as-a-hens-egg-ar.jpg"
+    },
+    {
+      "id": "ar-good-and-evil",
+      "language": "ar",
+      "order": 29,
+      "title": "الخير والشر",
+      "format": "json",
+      "file": "/books/ar/good-and-evil.json",
+      "cover": "/covers/ar/good-and-evil-ar.jpg"
+    },
+    {
+      "id": "ar-humans-and-devils",
+      "language": "ar",
+      "order": 30,
+      "title": "البشر والشياطين",
+      "format": "json",
+      "file": "/books/ar/humans-and-devils.json",
+      "cover": "/covers/ar/humans-and-devils-ar.jpg"
+    },
+    {
+      "id": "ar-work-death-and-illness",
+      "language": "ar",
+      "order": 31,
+      "title": "العمل والموت والمرض",
+      "format": "json",
+      "file": "/books/ar/work-death-and-illness.json",
+      "cover": "/covers/ar/work-death-and-illness-ar.jpg"
+    },
+    {
+      "id": "ar-hikam-al-nabi-muhammad",
+      "language": "ar",
+      "order": 32,
+      "title": "حِكَم النبي محمد",
+      "format": "json",
+      "file": "/books/ar/hikam-al-nabi-muhammad.json",
+      "cover": "/covers/ar/hikam-al-nabi-muhammad-ar.jpg"
+    },
+    {
+      "id": "ar-injil-tolstoy-wa-diyanatuh",
+      "language": "ar",
+      "order": 33,
+      "title": "إنجيل تولستوي وديانته",
+      "format": "json",
+      "file": "/books/ar/injil-tolstoy-wa-diyanatuh.json",
+      "cover": "/covers/ar/injil-tolstoy-wa-diyanatuh-ar.jpg"
+    },
+    {
+      "id": "ar-badaei-al-khayal",
+      "language": "ar",
+      "order": 34,
+      "title": "بدائع الخيال",
+      "format": "json",
+      "file": "/books/ar/badaei-al-khayal.json",
+      "cover": "/covers/ar/badaei-al-khayal-ar.jpg"
+    },
+    {
+      "id": "ar-my-life",
+      "language": "ar",
+      "order": 35,
+      "title": "حياتي",
+      "format": "json",
+      "file": "/books/ar/my-life.json",
+      "cover": "/covers/ar/my-life.jpeg"
+    },
+
+    {
+      "id": "en-war-and-peace",
+      "language": "en",
+      "order": 1,
+      "title": "War and Peace",
+      "format": "json",
+      "file": "/books/en/war-and-peace.json",
+      "cover": "/covers/en/war-and-peace.png"
+    },
+    {
+      "id": "en-anna-karenina",
+      "language": "en",
+      "order": 2,
+      "title": "Anna Karenina",
+      "format": "json",
+      "file": "/books/en/anna-karenina.json",
+      "cover": "/covers/en/anna-karenina.png"
+    },
+    {
+      "id": "en-hadji-murad",
+      "language": "en",
+      "order": 3,
+      "title": "Hadji Murad",
+      "format": "json",
+      "file": "/books/en/hadji-murad.json",
+      "cover": "/covers/en/hadji-murad.png"
+    },
+    {
+      "id": "en-the-cossacks",
+      "language": "en",
+      "order": 4,
+      "title": "The Cossacks",
+      "format": "json",
+      "file": "/books/en/the-cossacks.json",
+      "cover": "/covers/en/the-cossacks.png"
+    },
+    {
+      "id": "en-a-confession",
+      "language": "en",
+      "order": 5,
+      "title": "A Confession",
+      "format": "json",
+      "file": "/books/en/a-confession.json",
+      "cover": "/covers/en/a-confession.png"
+    },
+    {
+      "id": "en-father-sergius",
+      "language": "en",
+      "order": 6,
+      "title": "Father Sergius",
+      "format": "json",
+      "file": "/books/en/father-sergius.json",
+      "cover": "/covers/en/father-sergius.png"
+    },
+    {
+      "id": "en-sevastopol",
+      "language": "en",
+      "order": 7,
+      "title": "Sevastopol",
+      "format": "json",
+      "file": "/books/en/sevastopol.json",
+      "cover": "/covers/en/sevastopol.png"
+    },
+    {
+      "id": "en-the-kingdom-of-god-is-within-you",
+      "language": "en",
+      "order": 8,
+      "title": "The Kingdom of God Is Within You",
+      "format": "json",
+      "file": "/books/en/the-kingdom-of-god-is-within-you.json",
+      "cover": "/covers/en/the-kingdom-of-god-is-within-you.png"
+    },
+    {
+      "id": "en-childhood",
+      "language": "en",
+      "order": 9,
+      "title": "Childhood",
+      "format": "json",
+      "file": "/books/en/childhood.json",
+      "cover": "/covers/en/childhood.png"
+    },
+    {
+      "id": "en-boyhood",
+      "language": "en",
+      "order": 10,
+      "title": "Boyhood",
+      "format": "json",
+      "file": "/books/en/boyhood.json",
+      "cover": "/covers/en/boyhood.png"
+    },
+    {
+      "id": "en-youth",
+      "language": "en",
+      "order": 11,
+      "title": "Youth",
+      "format": "json",
+      "file": "/books/en/youth.json",
+      "cover": "/covers/en/youth.png"
+    },
+    {
+      "id": "en-the-devil",
+      "language": "en",
+      "order": 12,
+      "title": "The Devil",
+      "format": "json",
+      "file": "/books/en/the-devil.json",
+      "cover": "/covers/en/the-devil.png"
+    },
+    {
+      "id": "en-short-fiction",
+      "language": "en",
+      "order": 13,
+      "title": "The Kreutzer Sonata and Other Short Fiction",
+      "format": "json",
+      "file": "/books/en/short-fiction.json",
+      "cover": "/covers/en/short-fiction.png"
+    },
+    {
+      "id": "en-the-power-of-darkness",
+      "language": "en",
+      "order": 14,
+      "title": "The Power of Darkness",
+      "format": "json",
+      "file": "/books/en/the-power-of-darkness.json",
+      "cover": "/covers/en/the-power-of-darkness.png"
+    },
+    {
+      "id": "en-the-live-corpse",
+      "language": "en",
+      "order": 15,
+      "title": "The Live Corpse",
+      "format": "json",
+      "file": "/books/en/the-live-corpse.json",
+      "cover": "/covers/en/the-live-corpse.png"
+    },
+    {
+      "id": "en-the-light-shines-in-darkness",
+      "language": "en",
+      "order": 16,
+      "title": "The Light Shines in Darkness",
+      "format": "json",
+      "file": "/books/en/the-light-shines-in-darkness.json",
+      "cover": "/covers/en/the-light-shines-in-darkness.png"
+    },
+    {
+      "id": "en-what-is-art",
+      "language": "en",
+      "order": 17,
+      "title": "What Is Art?",
+      "format": "json",
+      "file": "/books/en/what-is-art.json",
+      "cover": "/covers/en/what-is-art.png"
+    },
+    {
+      "id": "en-what-shall-we-do",
+      "language": "en",
+      "order": 18,
+      "title": "What Shall We Do?",
+      "format": "json",
+      "file": "/books/en/what-shall-we-do.json",
+      "cover": "/covers/en/what-shall-we-do.png"
+    },
+    {
+      "id": "en-my-religion",
+      "language": "en",
+      "order": 19,
+      "title": "My Religion",
+      "format": "json",
+      "file": "/books/en/my-religion.json",
+      "cover": "/covers/en/my-religion.png"
+    },
+    {
+      "id": "en-bethink-yourselves",
+      "language": "en",
+      "order": 20,
+      "title": "Bethink Yourselves!",
+      "format": "json",
+      "file": "/books/en/bethink-yourselves.json",
+      "cover": "/covers/en/bethink-yourselves.png"
+    },
+    {
+      "id": "en-tolstoy-on-shakespeare",
+      "language": "en",
+      "order": 21,
+      "title": "Tolstoy on Shakespeare",
+      "format": "json",
+      "file": "/books/en/tolstoy-on-shakespeare.json",
+      "cover": "/covers/en/tolstoy-on-shakespeare.png"
+    },
+    {
+      "id": "en-fruits-of-culture",
+      "language": "en",
+      "order": 22,
+      "title": "The Fruits of Culture",
+      "format": "json",
+      "file": "/books/en/fruits-of-culture.json",
+      "cover": "/covers/en/fruits-of-culture.png"
+    },
+    {
+      "id": "en-the-first-distiller",
+      "language": "en",
+      "order": 23,
+      "title": "The First Distiller",
+      "format": "json",
+      "file": "/books/en/the-first-distiller.json",
+      "cover": "/covers/en/the-first-distiller.png"
+    },
+    {
+      "id": "en-the-cause-of-it-all",
+      "language": "en",
+      "order": 24,
+      "title": "The Cause of It All",
+      "format": "json",
+      "file": "/books/en/the-cause-of-it-all.json",
+      "cover": "/covers/en/the-cause-of-it-all.png"
+    },
+    {
+      "id": "en-the-journal-of-leo-tolstoi",
+      "language": "en",
+      "order": 25,
+      "title": "The Journal of Leo Tolstoi",
+      "format": "json",
+      "file": "/books/en/the-journal-of-leo-tolstoi.json",
+      "cover": "/covers/en/the-journal-of-leo-tolstoi.png"
+    },
+    {
+      "id": "en-a-letter-to-a-hindu",
+      "language": "en",
+      "order": 26,
+      "title": "A Letter to a Hindu",
+      "format": "json",
+      "file": "/books/en/a-letter-to-a-hindu.json",
+      "cover": "/covers/en/a-letter-to-a-hindu.png"
+    },
+    {
+      "id": "en-on-the-significance-of-science-and-art",
+      "language": "en",
+      "order": 27,
+      "title": "On the Significance of Science and Art",
+      "format": "json",
+      "file": "/books/en/on-the-significance-of-science-and-art.json",
+      "cover": "/covers/en/on-the-significance-of-science-and-art.png"
+    },
+    {
+      "id": "en-three-days-in-the-village",
+      "language": "en",
+      "order": 28,
+      "title": "Three Days in the Village",
+      "format": "json",
+      "file": "/books/en/three-days-in-the-village.json",
+      "cover": "/covers/en/three-days-in-the-village.png"
+    },
+
+    {
+      "id": "ru-war-and-peace-ru",
+      "language": "ru",
+      "order": 1,
+      "title": "Война и мир",
+      "format": "json",
+      "file": "/books/ru/war-and-peace-ru.json",
+      "cover": "/covers/ru/war-and-peace-ru.png"
+    },
+    {
+      "id": "ru-anna-karenina-ru",
+      "language": "ru",
+      "order": 2,
+      "title": "Анна Каренина",
+      "format": "json",
+      "file": "/books/ru/anna-karenina-ru.json",
+      "cover": "/covers/ru/anna-karenina-ru.png"
+    },
+    {
+      "id": "ru-resurrection-ru",
+      "language": "ru",
+      "order": 3,
+      "title": "Воскресение",
+      "format": "json",
+      "file": "/books/ru/resurrection-ru.json",
+      "cover": "/covers/ru/resurrection-ru.png"
+    },
+    {
+      "id": "ru-the-death-of-ivan-ilyich-ru",
+      "language": "ru",
+      "order": 4,
+      "title": "Смерть Ивана Ильича",
+      "format": "json",
+      "file": "/books/ru/the-death-of-ivan-ilyich-ru.json",
+      "cover": "/covers/ru/the-death-of-ivan-ilyich-ru.png"
+    },
+    {
+      "id": "ru-the-kreutzer-sonata-ru",
+      "language": "ru",
+      "order": 5,
+      "title": "Крейцерова соната",
+      "format": "json",
+      "file": "/books/ru/the-kreutzer-sonata-ru.json",
+      "cover": "/covers/ru/the-kreutzer-sonata-ru.png"
+    },
+    {
+      "id": "ru-sevastopol-stories-ru",
+      "language": "ru",
+      "order": 6,
+      "title": "Севастопольские рассказы",
+      "format": "json",
+      "file": "/books/ru/sevastopol-stories-ru.json",
+      "cover": "/covers/ru/sevastopol-stories-ru.png"
+    },
+    {
+      "id": "ru-father-sergius-ru",
+      "language": "ru",
+      "order": 7,
+      "title": "Отец Сергий",
+      "format": "json",
+      "file": "/books/ru/father-sergius-ru.json",
+      "cover": "/covers/ru/father-sergius-ru.png"
+    },
+    {
+      "id": "ru-kholstomer-ru",
+      "language": "ru",
+      "order": 8,
+      "title": "Холстомер",
+      "format": "json",
+      "file": "/books/ru/kholstomer-ru.json",
+      "cover": "/covers/ru/kholstomer-ru.png"
+    }
+  ],
+  "counts": {
+    "ar": 35,
+    "en": 28,
+    "ru": 8,
+    "total": 71
+  }
+}

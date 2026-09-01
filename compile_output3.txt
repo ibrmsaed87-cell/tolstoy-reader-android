@@ -1,0 +1,33 @@
+Reusing configuration cache.
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:processDebugGoogleServices UP-TO-DATE
+> Task :app:generateDebugBuildConfig UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:processDebugNavigationResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:generateDebugRFile UP-TO-DATE
+> Task :app:kspDebugKotlin
+
+> Task :app:compileDebugKotlin
+w: file:///app/applet/app/src/main/java/com/spinel/tolstoyreader/MainActivity.kt:39:26 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+w: file:///app/applet/app/src/main/java/com/spinel/tolstoyreader/MainActivity.kt:45:106 'static field LAYOUT_DIRECTION_RTL: Int' is deprecated. Deprecated in Java.
+w: file:///app/applet/app/src/main/java/com/spinel/tolstoyreader/data/local/AppDatabase.kt:62:18 'fun fallbackToDestructiveMigration(): RoomDatabase.Builder<AppDatabase>' is deprecated. Replace by overloaded version with parameter to indicate if all tables should be dropped or not.
+w: file:///app/applet/app/src/main/java/com/spinel/tolstoyreader/data/network/Models.kt:26:5 This annotation is currently applied to the value parameter only, but in the future it will also be applied to property.
+- To opt in to applying to both value parameter and property, add '-Xannotation-default-target=param-property' to your compiler arguments.
+- To keep applying to the value parameter only, use the '@param:' annotation target.
+
+See https://youtrack.jetbrains.com/issue/KT-73255 for more details.
+w: file:///app/applet/app/src/main/java/com/spinel/tolstoyreader/ui/screens/AppDrawerContent.kt:49:9 'fun Divider(modifier: Modifier = ..., thickness: Dp = ..., color: Color = ...): Unit' is deprecated. Renamed to HorizontalDivider.
+w: file:///app/applet/app/src/main/java/com/spinel/tolstoyreader/ui/screens/AppDrawerContent.kt:76:9 'fun Divider(modifier: Modifier = ..., thickness: Dp = ..., color: Color = ...): Unit' is deprecated. Renamed to HorizontalDivider.
+w: file:///app/applet/app/src/main/java/com/spinel/tolstoyreader/ui/screens/AppDrawerContent.kt:103:9 'fun Divider(modifier: Modifier = ..., thickness: Dp = ..., color: Color = ...): Unit' is deprecated. Renamed to HorizontalDivider.
+w: file:///app/applet/app/src/main/java/com/spinel/tolstoyreader/ui/screens/ReaderScreen.kt:319:17 'fun Divider(modifier: Modifier = ..., thickness: Dp = ..., color: Color = ...): Unit' is deprecated. Renamed to HorizontalDivider.
+w: file:///app/applet/app/src/main/java/com/spinel/tolstoyreader/ui/screens/ReaderScreen.kt:364:52 'val Icons.Filled.ArrowBack: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.ArrowBack.
+w: file:///app/applet/app/src/main/java/com/spinel/tolstoyreader/ui/screens/ReaderScreen.kt:413:65 'val Icons.Filled.ArrowBack: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.ArrowBack.
+w: file:///app/applet/app/src/main/java/com/spinel/tolstoyreader/ui/screens/ReaderScreen.kt:482:69 'val Icons.Filled.List: ImageVector' is deprecated. Use the AutoMirrored version at Icons.AutoMirrored.Filled.List.
+w: file:///app/applet/app/src/main/java/com/spinel/tolstoyreader/ui/screens/TtsManager.kt:26:22 'constructor(p0: String!): Locale' is deprecated. Deprecated in Java.
+
+BUILD SUCCESSFUL in 27s
+9 actionable tasks: 2 executed, 7 up-to-date
+Configuration cache entry reused.
