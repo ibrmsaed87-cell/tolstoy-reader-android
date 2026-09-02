@@ -799,10 +799,21 @@ fun ReaderScreen(
                                     }
                                     if (currentChapterIndex < book!!.chapters.size - 1) {
                                         TextButton(onClick = {
-                                            currentChapterIndex++
-                                            coroutineScope.launch {
-                                                delay(100)
-                                                scrollState.scrollTo(0)
+                                            val activity = context as? android.app.Activity
+                                            if (activity != null) {
+                                                com.spinel.tolstoyreader.ads.AdManager.showChapterTransitionInterstitial(activity) {
+                                                    currentChapterIndex++
+                                                    coroutineScope.launch {
+                                                        delay(100)
+                                                        scrollState.scrollTo(0)
+                                                    }
+                                                }
+                                            } else {
+                                                currentChapterIndex++
+                                                coroutineScope.launch {
+                                                    delay(100)
+                                                    scrollState.scrollTo(0)
+                                                }
                                             }
                                         }) {
                                             Text("Next Chapter")

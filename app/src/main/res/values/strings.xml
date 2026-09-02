@@ -77,4 +77,8 @@
     <string name="zoom_out">Zoom Out</string>
     <string name="fit_width">Fit to Width</string>
     <string name="reset_zoom">Reset Zoom</string>
+    <string name="notification_channel_name">Tolstoy Reader Notifications</string>
+    <string name="notification_channel_desc">General notifications and updates from Tolstoy Reader.</string>
+    <string name="privacy_options">Privacy Options</string>
+    <string name="rewarded_ad_button">Watch an ad for an extra recommendation</string>
 </resources>

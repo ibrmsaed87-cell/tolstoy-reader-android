@@ -77,4 +77,8 @@
     <string name="zoom_out">Уменьшить</string>
     <string name="fit_width">По ширине</string>
     <string name="reset_zoom">Сбросить масштаб</string>
+    <string name="notification_channel_name">Уведомления Tolstoy Reader</string>
+    <string name="notification_channel_desc">Общие уведомления и новости от Tolstoy Reader.</string>
+    <string name="privacy_options">Настройки конфиденциальности</string>
+    <string name="rewarded_ad_button">Посмотрите рекламу для дополнительной рекомендации</string>
 </resources>

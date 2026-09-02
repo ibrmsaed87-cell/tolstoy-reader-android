@@ -14,6 +14,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.spinel.tolstoyreader.R
+import com.spinel.tolstoyreader.ads.AdManager
+import android.app.Activity
 
 @Composable
 fun AppDrawerContent(
@@ -24,6 +26,7 @@ fun AppDrawerContent(
     onCloseDrawer: () -> Unit
 ) {
     val context = LocalContext.current
+    val activity = context as? Activity
 
     Column(
         modifier = Modifier
@@ -140,6 +143,24 @@ fun AppDrawerContent(
                 modifier = Modifier.fillMaxWidth(),
                 style = MaterialTheme.typography.bodyLarge
             )
+        }
+        
+        if (AdManager.isPrivacyOptionsRequired()) {
+            Spacer(modifier = Modifier.height(16.dp))
+            TextButton(
+                onClick = {
+                    activity?.let { AdManager.showPrivacyOptionsForm(it) }
+                    onCloseDrawer()
+                },
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(horizontal = 0.dp)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.privacy_options),
+                    modifier = Modifier.fillMaxWidth(),
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
         }
     }
 }

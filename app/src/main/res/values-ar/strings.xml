@@ -77,4 +77,8 @@
     <string name="zoom_out">تصغير</string>
     <string name="fit_width">ملاءمة العرض</string>
     <string name="reset_zoom">إعادة ضبط التكبير</string>
+    <string name="notification_channel_name">إشعارات قارئ تولستوي</string>
+    <string name="notification_channel_desc">إشعارات وتحديثات عامة من قارئ تولستوي.</string>
+    <string name="privacy_options">خيارات الخصوصية</string>
+    <string name="rewarded_ad_button">شاهد إعلانًا واحصل على اقتراح إضافي</string>
 </resources>

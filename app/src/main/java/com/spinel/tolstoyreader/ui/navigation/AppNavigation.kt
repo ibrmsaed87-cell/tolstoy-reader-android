@@ -37,6 +37,10 @@ import com.spinel.tolstoyreader.ui.screens.ReaderScreen
 import com.spinel.tolstoyreader.ui.screens.SearchScreen
 import com.spinel.tolstoyreader.ui.viewmodel.BookViewModel
 
+import com.spinel.tolstoyreader.ads.AdManager
+import android.app.Activity
+import androidx.compose.ui.platform.LocalContext
+
 sealed class Screen(val route: String) {
     object Home : Screen("home")
     object Search : Screen("search")
@@ -58,6 +62,12 @@ fun AppNavigation(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     val currentRoute = currentDestination?.route
+    
+    val context = LocalContext.current
+    val activity = context as? Activity
+    
+    // Update reader mode state to prevent ads during reading
+    AdManager.isReaderModeActive = currentRoute?.startsWith("reader/") == true
 
     val showBottomNav = currentRoute in listOf(
         Screen.Home.route,
@@ -150,10 +160,22 @@ fun AppNavigation(
                         viewModel = bookViewModel,
                         onOpenDrawer = { scope.launch { drawerState.open() } },
                         onBookClick = { bookId ->
-                            navController.navigate(Screen.BookDetails.createRoute(bookId))
+                            activity?.let {
+                                AdManager.showInterstitialOnTransition(it) {
+                                    navController.navigate(Screen.BookDetails.createRoute(bookId))
+                                }
+                            } ?: run {
+                                navController.navigate(Screen.BookDetails.createRoute(bookId))
+                            }
                         },
                         onReadClick = { bookId ->
-                            navController.navigate(Screen.Reader.createRoute(bookId))
+                            activity?.let {
+                                AdManager.showInterstitialOnTransition(it) {
+                                    navController.navigate(Screen.Reader.createRoute(bookId))
+                                }
+                            } ?: run {
+                                navController.navigate(Screen.Reader.createRoute(bookId))
+                            }
                         }
                     )
                 }
@@ -161,7 +183,13 @@ fun AppNavigation(
                     SearchScreen(
                         viewModel = bookViewModel,
                         onBookClick = { bookId ->
-                            navController.navigate(Screen.BookDetails.createRoute(bookId))
+                            activity?.let {
+                                AdManager.showInterstitialOnTransition(it) {
+                                    navController.navigate(Screen.BookDetails.createRoute(bookId))
+                                }
+                            } ?: run {
+                                navController.navigate(Screen.BookDetails.createRoute(bookId))
+                            }
                         }
                     )
                 }
@@ -169,7 +197,13 @@ fun AppNavigation(
                     FavoritesScreen(
                         viewModel = bookViewModel,
                         onBookClick = { bookId ->
-                            navController.navigate(Screen.BookDetails.createRoute(bookId))
+                            activity?.let {
+                                AdManager.showInterstitialOnTransition(it) {
+                                    navController.navigate(Screen.BookDetails.createRoute(bookId))
+                                }
+                            } ?: run {
+                                navController.navigate(Screen.BookDetails.createRoute(bookId))
+                            }
                         }
                     )
                 }
@@ -180,8 +214,18 @@ fun AppNavigation(
                         BookDetailsScreen(
                             bookId = bookId,
                             viewModel = bookViewModel,
-                            onBackClick = { navController.popBackStack() },
-                            onReadClick = { id -> navController.navigate(Screen.Reader.createRoute(id)) }
+                            onBackClick = {
+                                navController.popBackStack()
+                            },
+                            onReadClick = { id -> 
+                                activity?.let {
+                                    AdManager.showInterstitialOnTransition(it) {
+                                        navController.navigate(Screen.Reader.createRoute(id))
+                                    }
+                                } ?: run {
+                                    navController.navigate(Screen.Reader.createRoute(id))
+                                }
+                            }
                         )
                     }
                 }
@@ -192,7 +236,9 @@ fun AppNavigation(
                         ReaderScreen(
                             bookId = bookId,
                             viewModel = bookViewModel,
-                            onBackClick = { navController.popBackStack() }
+                            onBackClick = {
+                                navController.popBackStack()
+                            }
                         )
                     }
                 }

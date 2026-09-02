@@ -42,6 +42,8 @@ import com.spinel.tolstoyreader.data.model.QuotesData
 import com.spinel.tolstoyreader.ui.viewmodel.BookViewModel
 import java.util.Locale
 
+import com.spinel.tolstoyreader.ads.NativeAdBanner
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
@@ -202,6 +204,39 @@ fun HomeScreen(
                 }
             }
             
+            // 3.5 Rewarded Ad
+            item(span = { GridItemSpan(2) }) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Button(
+                    onClick = {
+                        val activity = context as? android.app.Activity
+                        if (activity != null) {
+                            com.spinel.tolstoyreader.ads.AdManager.showRewardedAd(activity) {
+                                // Reward: an extra recommendation
+                                val randomBook = books.randomOrNull()
+                                if (randomBook != null) {
+                                    onBookClick(randomBook.id)
+                                }
+                            }
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth().height(56.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer
+                    )
+                ) {
+                    Icon(Icons.Default.PlayArrow, contentDescription = null, modifier = Modifier.size(20.dp))
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = stringResource(id = R.string.rewarded_ad_button), 
+                        style = MaterialTheme.typography.titleSmall, 
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+            
             // 4. Library Header
             item(span = { GridItemSpan(2) }) {
                 Text(
@@ -214,12 +249,19 @@ fun HomeScreen(
             }
 
             // 5. Library Grid
-            items(books) { book ->
-                BookGridItem(
-                    book = book,
-                    onClick = { onBookClick(book.id) },
-                    onFavoriteClick = { viewModel.toggleFavorite(book.id, !book.isFavorite) }
-                )
+            books.forEachIndexed { index, book ->
+                item {
+                    BookGridItem(
+                        book = book,
+                        onClick = { onBookClick(book.id) },
+                        onFavoriteClick = { viewModel.toggleFavorite(book.id, !book.isFavorite) }
+                    )
+                }
+                if ((index + 1) % 6 == 0) {
+                    item(span = { GridItemSpan(2) }) {
+                        NativeAdBanner()
+                    }
+                }
             }
         }
     }
