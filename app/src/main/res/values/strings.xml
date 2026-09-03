@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="menu">Menu</string>
     <string name="share_text">Read the best classic novels on Tolstoy Reader!</string>
@@ -81,4 +81,4 @@
     <string name="notification_channel_desc">General notifications and updates from Tolstoy Reader.</string>
     <string name="privacy_options">Privacy Options</string>
     <string name="rewarded_ad_button">Watch an ad for an extra recommendation</string>
-</resources>
+<string name="ad_not_ready">Ad is not ready yet, please try again.</string></resources>

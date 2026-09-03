@@ -11,8 +11,6 @@ import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.appopen.AppOpenAd
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
-import com.google.android.gms.ads.rewarded.RewardedAd
-import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.google.android.ump.ConsentDebugSettings
 import com.google.android.ump.ConsentInformation
 import com.google.android.ump.ConsentRequestParameters
@@ -22,21 +20,59 @@ object AdManager {
     private const val TAG = "AdManager"
 
     // Test Ad Unit IDs
-    const val APP_OPEN_AD_UNIT_ID = "ca-app-pub-3940256099942544/9257395921"
-    const val INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-3940256099942544/1033173712"
-    const val NATIVE_AD_UNIT_ID = "ca-app-pub-3940256099942544/2247696110"
-    const val REWARDED_AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917"
+    const val APP_OPEN_AD_UNIT_ID = "ca-app-pub-9118481973136364/6369664858"
+    const val INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-9118481973136364/3893720920"
+    const val NATIVE_AD_UNIT_ID = "ca-app-pub-9118481973136364/1277120271"
+    const val BANNER_AD_UNIT_ID = "ca-app-pub-9118481973136364/9357800592"
+    const val REWARDED_AD_UNIT_ID = "ca-app-pub-9118481973136364/7083980728"
 
     var isReaderModeActive = false
     var isShowingFullScreenAd = false
 
     private lateinit var consentInformation: ConsentInformation
 
+    private val nativeAdCache = mutableMapOf<String, com.google.android.gms.ads.nativead.NativeAd>()
+
+    private val loadingNativeAds = mutableSetOf<String>()
+
+    fun getNativeAd(context: Context, id: String, onLoaded: (com.google.android.gms.ads.nativead.NativeAd?) -> Unit) {
+        if (nativeAdCache.containsKey(id)) {
+            onLoaded(nativeAdCache[id])
+            return
+        }
+        if (loadingNativeAds.contains(id)) {
+            // Already loading this ad, wait for it to finish and hope recomposition picks it up later,
+            // or just return null for now. To keep it simple, we just ignore duplicate requests.
+            return
+        }
+        
+        if (!::consentInformation.isInitialized || !consentInformation.canRequestAds()) {
+            onLoaded(null)
+            return
+        }
+
+        loadingNativeAds.add(id)
+        val adLoader = com.google.android.gms.ads.AdLoader.Builder(context, NATIVE_AD_UNIT_ID)
+            .forNativeAd { ad ->
+                loadingNativeAds.remove(id)
+                nativeAdCache[id] = ad
+                onLoaded(ad)
+            }
+            .withAdListener(object : com.google.android.gms.ads.AdListener() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    loadingNativeAds.remove(id)
+                    onLoaded(null)
+                }
+            })
+            .withNativeAdOptions(com.google.android.gms.ads.nativead.NativeAdOptions.Builder().build())
+            .build()
+        
+        adLoader.loadAd(AdRequest.Builder().build())
+    }
+
     // Interstitial State
     private var interstitialAd: InterstitialAd? = null
     private var isInterstitialLoading = false
-    private var actionCountSinceLastInterstitial = 0
-    private const val INTERSTITIAL_ACTION_THRESHOLD = 4
 
     private var chapterTransitionCount = 0
     private const val CHAPTER_TRANSITION_THRESHOLD = 3
@@ -47,8 +83,6 @@ object AdManager {
     private var loadTime: Long = 0
 
     // Rewarded State
-    private var rewardedAd: RewardedAd? = null
-    private var isRewardedLoading = false
 
     fun initConsentAndAds(activity: Activity) {
         val debugSettings = ConsentDebugSettings.Builder(activity)
@@ -110,7 +144,6 @@ object AdManager {
             isMobileAdsInitialized = true
             loadAppOpenAd(context)
             loadInterstitialAd(context)
-            loadRewardedAd(context)
         }
     }
 
@@ -200,32 +233,34 @@ object AdManager {
     }
 
     fun showInterstitialOnTransition(activity: Activity, onContinue: () -> Unit) {
-        actionCountSinceLastInterstitial++
-        if (actionCountSinceLastInterstitial >= INTERSTITIAL_ACTION_THRESHOLD) {
-            if (interstitialAd != null && !isShowingFullScreenAd && !isReaderModeActive) {
-                interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
-                    override fun onAdDismissedFullScreenContent() {
-                        interstitialAd = null
-                        isShowingFullScreenAd = false
-                        actionCountSinceLastInterstitial = 0
-                        loadInterstitialAd(activity)
-                        onContinue()
-                    }
-                    override fun onAdFailedToShowFullScreenContent(error: AdError) {
-                        interstitialAd = null
-                        isShowingFullScreenAd = false
-                        loadInterstitialAd(activity)
-                        onContinue()
-                    }
-                    override fun onAdShowedFullScreenContent() {
-                        isShowingFullScreenAd = true
-                    }
+        // Prevent double clicks while ad is showing or about to show
+        if (isShowingFullScreenAd) {
+            return // Ignore clicks if ad is already on screen
+        }
+        
+        if (interstitialAd != null && !isReaderModeActive) {
+            val targetAction = onContinue
+            interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
+                override fun onAdDismissedFullScreenContent() {
+                    interstitialAd = null
+                    isShowingFullScreenAd = false
+                    loadInterstitialAd(activity)
+                    targetAction()
                 }
-                interstitialAd?.show(activity)
-            } else {
-                onContinue()
+                override fun onAdFailedToShowFullScreenContent(error: AdError) {
+                    interstitialAd = null
+                    isShowingFullScreenAd = false
+                    loadInterstitialAd(activity)
+                    targetAction()
+                }
+                override fun onAdShowedFullScreenContent() {
+                    isShowingFullScreenAd = true
+                }
             }
+            interstitialAd?.show(activity)
+            isShowingFullScreenAd = true // Immediately mark as showing to prevent double-clicks
         } else {
+            loadInterstitialAd(activity)
             onContinue()
         }
     }
@@ -233,13 +268,14 @@ object AdManager {
     fun showChapterTransitionInterstitial(activity: Activity, onContinue: () -> Unit) {
         chapterTransitionCount++
         if (chapterTransitionCount >= CHAPTER_TRANSITION_THRESHOLD) {
+            chapterTransitionCount = 0 // Reset immediately
+            
             // Notice: we bypass !isReaderModeActive here because we ARE in the reader mode
             if (interstitialAd != null && !isShowingFullScreenAd) {
                 interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                     override fun onAdDismissedFullScreenContent() {
                         interstitialAd = null
                         isShowingFullScreenAd = false
-                        chapterTransitionCount = 0
                         loadInterstitialAd(activity)
                         onContinue()
                     }
@@ -258,53 +294,9 @@ object AdManager {
                 onContinue()
             }
         } else {
+            loadInterstitialAd(activity)
             onContinue()
         }
     }
 
-    // --- Rewarded Ad ---
-
-    fun loadRewardedAd(context: Context) {
-        if (isRewardedLoading || rewardedAd != null) return
-        isRewardedLoading = true
-
-        RewardedAd.load(context, REWARDED_AD_UNIT_ID, AdRequest.Builder().build(),
-            object : RewardedAdLoadCallback() {
-                override fun onAdLoaded(ad: RewardedAd) {
-                    rewardedAd = ad
-                    isRewardedLoading = false
-                }
-                override fun onAdFailedToLoad(error: LoadAdError) {
-                    rewardedAd = null
-                    isRewardedLoading = false
-                }
-            })
-    }
-
-    fun showRewardedAd(activity: Activity, onRewardEarned: () -> Unit) {
-        if (isShowingFullScreenAd) return
-        if (rewardedAd != null) {
-            rewardedAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
-                override fun onAdDismissedFullScreenContent() {
-                    rewardedAd = null
-                    isShowingFullScreenAd = false
-                    loadRewardedAd(activity)
-                }
-                override fun onAdFailedToShowFullScreenContent(error: AdError) {
-                    rewardedAd = null
-                    isShowingFullScreenAd = false
-                    loadRewardedAd(activity)
-                }
-                override fun onAdShowedFullScreenContent() {
-                    isShowingFullScreenAd = true
-                }
-            }
-            rewardedAd?.show(activity) {
-                actionCountSinceLastInterstitial = 0 // Reset interstitial cap after watching rewarded
-                onRewardEarned()
-            }
-        } else {
-            loadRewardedAd(activity)
-        }
-    }
 }

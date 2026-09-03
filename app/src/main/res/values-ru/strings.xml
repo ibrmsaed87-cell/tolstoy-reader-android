@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="menu">Меню</string>
     <string name="share_text">Читайте лучшие классические романы в Tolstoy Reader!</string>
@@ -81,4 +81,4 @@
     <string name="notification_channel_desc">Общие уведомления и новости от Tolstoy Reader.</string>
     <string name="privacy_options">Настройки конфиденциальности</string>
     <string name="rewarded_ad_button">Посмотрите рекламу для дополнительной рекомендации</string>
-</resources>
+<string name="ad_not_ready">Реклама еще не готова, попробуйте еще раз.</string></resources>

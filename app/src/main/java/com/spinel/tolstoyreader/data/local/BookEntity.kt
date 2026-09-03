@@ -15,6 +15,7 @@ data class BookEntity(
     val seriesId: String? = null,
     val seriesTitle: String? = null,
     val seriesOrder: Int? = null,
+    val totalChapters: Int = 0,
     val format: String,
     val fileUrl: String,
     val isDownloaded: Boolean = false,

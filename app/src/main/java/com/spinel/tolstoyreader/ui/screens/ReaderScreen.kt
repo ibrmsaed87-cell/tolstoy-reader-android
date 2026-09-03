@@ -1,6 +1,8 @@
 package com.spinel.tolstoyreader.ui.screens
 
 import android.content.Context
+import android.util.Log
+import com.spinel.tolstoyreader.ads.ReaderBannerAd
 import android.graphics.Bitmap
 import android.graphics.pdf.PdfRenderer
 import android.os.ParcelFileDescriptor
@@ -76,7 +78,16 @@ fun ReaderScreen(
     onBackClick: () -> Unit
 ) {
     val context = LocalContext.current
-    val book by viewModel.selectedBook.collectAsStateWithLifecycle()
+    val book by viewModel.getBookByIdFlow(bookId).collectAsStateWithLifecycle(initialValue = null)
+
+    LaunchedEffect(book) {
+        if (book != null) {
+            Log.d("BOOK_NAV", "READER: routeId = $bookId, resolvedId = ${book?.id}, resolvedTitle = ${book?.title}")
+            if (bookId != book?.id) {
+                Log.e("BOOK_NAV", "MISMATCH in ReaderScreen! routeId=$bookId, resolvedId=${book?.id}")
+            }
+        }
+    }
     val coroutineScope = rememberCoroutineScope()
 
     val fontSize by viewModel.fontSize.collectAsStateWithLifecycle()
@@ -148,9 +159,7 @@ fun ReaderScreen(
         }
     }
 
-    LaunchedEffect(bookId) {
-        viewModel.loadBook(bookId)
-    }
+    
 
     LaunchedEffect(book) {
         book?.let {
@@ -174,16 +183,24 @@ fun ReaderScreen(
         }
     }
 
-    val currentChapterState = rememberUpdatedState(currentChapterIndex)
-    val currentScrollState = rememberUpdatedState(scrollState.value)
-    val currentPdfPageState = rememberUpdatedState(currentPdfPage)
+    val currentChapterState by rememberUpdatedState(currentChapterIndex)
+    val currentScrollState by rememberUpdatedState(scrollState.value)
+    val currentPdfPageState by rememberUpdatedState(currentPdfPage)
 
     DisposableEffect(bookId) {
         onDispose {
-            viewModel.saveProgress(bookId, currentChapterState.value, currentScrollState.value)
-            viewModel.savePdfProgress(bookId, currentPdfPageState.value)
-            pdfRenderer?.close()
-            pdfFileDescriptor?.close()
+            viewModel.saveProgress(bookId, currentChapterState, currentScrollState)
+            viewModel.savePdfProgress(bookId, currentPdfPageState)
+            try {
+                pdfRenderer?.close()
+            } catch (e: Exception) {
+                // Ignore if already closed
+            }
+            try {
+                pdfFileDescriptor?.close()
+            } catch (e: Exception) {
+                // Ignore
+            }
             tempPdfFile?.delete()
         }
     }
@@ -214,7 +231,7 @@ fun ReaderScreen(
     }
 
     // Global Progress Update
-    val globalProgress by remember(currentChapterIndex, scrollState.value, scrollState.maxValue) {
+    val globalProgress by remember(currentChapterIndex) {
         derivedStateOf {
             if (chapterLengths.isEmpty() || scrollState.maxValue == 0) return@derivedStateOf 0f
             val chapterStartOffset = chapterLengths.take(currentChapterIndex).sum()
@@ -505,60 +522,73 @@ fun ReaderScreen(
             },
             bottomBar = {
               AnimatedVisibility(visible = !isFullscreen) {
-                if (book != null && book!!.format != "pdf" && !isSearchActive) {
-                    BottomAppBar(
-                        containerColor = themeContainerColor,
-                        contentColor = themeContentColor,
-                        tonalElevation = 2.dp,
-                        modifier = Modifier.height(64.dp)
-                    ) {
-                        IconButton(onClick = { isAutoScrolling = !isAutoScrolling }) {
-                            Icon(
-                                imageVector = if (isAutoScrolling) Icons.Default.Pause else Icons.Default.PlayArrow,
-                                contentDescription = stringResource(id = if (isAutoScrolling) R.string.pause_auto_scroll else R.string.auto_scroll)
+                Column(modifier = Modifier.fillMaxWidth().background(themeContainerColor)) {
+                    if (book != null && book!!.format != "pdf" && !isSearchActive) {
+                        BottomAppBar(
+                            containerColor = themeContainerColor,
+                            contentColor = themeContentColor,
+                            tonalElevation = 2.dp,
+                            modifier = Modifier.height(64.dp)
+                        ) {
+                            IconButton(onClick = { isAutoScrolling = !isAutoScrolling }) {
+                                Icon(
+                                    imageVector = if (isAutoScrolling) Icons.Default.Pause else Icons.Default.PlayArrow,
+                                    contentDescription = stringResource(id = if (isAutoScrolling) R.string.pause_auto_scroll else R.string.auto_scroll)
+                                )
+                            }
+                            Slider(
+                                value = sliderPosition,
+                                onValueChange = {
+                                    sliderPosition = it
+                                    isDraggingSlider = true
+                                    isAutoScrolling = false
+                                },
+                                onValueChangeFinished = {
+                                    isDraggingSlider = false
+                                    val targetOffset = sliderPosition * totalLength
+                                    var accumulated = 0
+                                    var targetChapter = 0
+                                    for ((i, len) in chapterLengths.withIndex()) {
+                                        if (accumulated + len >= targetOffset) {
+                                            targetChapter = i
+                                            break
+                                        }
+                                        accumulated += len
+                                    }
+                                    if (targetChapter >= chapterLengths.size) targetChapter = chapterLengths.size - 1
+                                    
+                                    val fraction = if (chapterLengths[targetChapter] > 0) {
+                                        (targetOffset - accumulated) / chapterLengths[targetChapter].toFloat()
+                                    } else 0f
+                                    
+                                    if (currentChapterIndex != targetChapter) {
+                                        currentChapterIndex = targetChapter
+                                        pendingScrollFraction = fraction
+                                    } else {
+                                        coroutineScope.launch {
+                                            scrollState.scrollTo((fraction * scrollState.maxValue).toInt())
+                                        }
+                                    }
+                                },
+                                modifier = Modifier.weight(1f).padding(horizontal = 8.dp)
+                            )
+                            Text(
+                                text = "${(sliderPosition * 100).toInt()}%",
+                                style = MaterialTheme.typography.labelMedium,
+                                modifier = Modifier.padding(end = 16.dp)
                             )
                         }
-                        Slider(
-                            value = sliderPosition,
-                            onValueChange = {
-                                sliderPosition = it
-                                isDraggingSlider = true
-                                isAutoScrolling = false
-                            },
-                            onValueChangeFinished = {
-                                isDraggingSlider = false
-                                val targetOffset = sliderPosition * totalLength
-                                var accumulated = 0
-                                var targetChapter = 0
-                                for ((i, len) in chapterLengths.withIndex()) {
-                                    if (accumulated + len >= targetOffset) {
-                                        targetChapter = i
-                                        break
-                                    }
-                                    accumulated += len
-                                }
-                                if (targetChapter >= chapterLengths.size) targetChapter = chapterLengths.size - 1
-
-                                val fraction = if (chapterLengths[targetChapter] > 0) {
-                                    (targetOffset - accumulated) / chapterLengths[targetChapter].toFloat()
-                                } else 0f
-
-                                if (currentChapterIndex != targetChapter) {
-                                    currentChapterIndex = targetChapter
-                                    pendingScrollFraction = fraction
-                                } else {
-                                    coroutineScope.launch {
-                                        scrollState.scrollTo((fraction * scrollState.maxValue).toInt())
-                                    }
-                                }
-                            },
-                            modifier = Modifier.weight(1f).padding(horizontal = 8.dp)
-                        )
-                        Text(
-                            text = "${(sliderPosition * 100).toInt()}%",
-                            style = MaterialTheme.typography.labelMedium,
-                            modifier = Modifier.padding(end = 16.dp)
-                        )
+                        
+                        // Add spacing between controls and banner
+                        HorizontalDivider(thickness = 1.dp, color = MaterialTheme.colorScheme.onSurface.copy(alpha=0.1f))
+                        Spacer(modifier = Modifier.height(12.dp))
+                    }
+                    
+                    // Show banner for both PDF and text formats if consent allows
+                    if (com.google.android.ump.UserMessagingPlatform.getConsentInformation(context).canRequestAds()) {
+                        Box(modifier = Modifier.fillMaxWidth().background(themeContainerColor), contentAlignment = Alignment.Center) {
+                            ReaderBannerAd()
+                        }
                     }
                 }
               }

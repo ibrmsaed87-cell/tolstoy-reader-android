@@ -1,0 +1,29 @@
+33,65c
+fun NativeAdBanner(adKey: String = "default") {
+    val context = LocalContext.current
+    var nativeAd by remember { mutableStateOf<NativeAd?>(null) }
+    var adLoaded by remember { mutableStateOf(false) }
+
+    DisposableEffect(adKey) {
+        AdManager.getNativeAd(context, adKey) { ad ->
+            nativeAd = ad
+            adLoaded = ad != null
+        }
+        onDispose {
+            // Do not destroy nativeAd here because AdManager caches it!
+        }
+    }
+
+    if (adLoaded && nativeAd != null) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp, horizontal = 4.dp),
+            shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+        ) {
+            AndroidView(
+                modifier = Modifier.fillMaxWidth(),
+.
+w

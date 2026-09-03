@@ -1,4 +1,7 @@
 package com.spinel.tolstoyreader.ui.navigation
+
+import android.util.Log
+import android.net.Uri
 import androidx.compose.ui.unit.dp
 
 import androidx.compose.foundation.layout.padding
@@ -46,10 +49,10 @@ sealed class Screen(val route: String) {
     object Search : Screen("search")
     object Favorites : Screen("favorites")
     object BookDetails : Screen("book_details/{bookId}") {
-        fun createRoute(bookId: String) = "book_details/$bookId"
+        fun createRoute(bookId: String) = "book_details/${Uri.encode(bookId)}"
     }
     object Reader : Screen("reader/{bookId}") {
-        fun createRoute(bookId: String) = "reader/$bookId"
+        fun createRoute(bookId: String) = "reader/${Uri.encode(bookId)}"
     }
 }
 
@@ -160,6 +163,7 @@ fun AppNavigation(
                         viewModel = bookViewModel,
                         onOpenDrawer = { scope.launch { drawerState.open() } },
                         onBookClick = { bookId ->
+                            Log.d("BOOK_NAV", "BOOK_CLICK: requestedId = $bookId")
                             activity?.let {
                                 AdManager.showInterstitialOnTransition(it) {
                                     navController.navigate(Screen.BookDetails.createRoute(bookId))
@@ -169,6 +173,7 @@ fun AppNavigation(
                             }
                         },
                         onReadClick = { bookId ->
+                            Log.d("BOOK_NAV", "READ_CLICK: requestedId = $bookId")
                             activity?.let {
                                 AdManager.showInterstitialOnTransition(it) {
                                     navController.navigate(Screen.Reader.createRoute(bookId))
@@ -183,6 +188,7 @@ fun AppNavigation(
                     SearchScreen(
                         viewModel = bookViewModel,
                         onBookClick = { bookId ->
+                            Log.d("BOOK_NAV", "BOOK_CLICK: requestedId = $bookId")
                             activity?.let {
                                 AdManager.showInterstitialOnTransition(it) {
                                     navController.navigate(Screen.BookDetails.createRoute(bookId))
@@ -197,6 +203,7 @@ fun AppNavigation(
                     FavoritesScreen(
                         viewModel = bookViewModel,
                         onBookClick = { bookId ->
+                            Log.d("BOOK_NAV", "BOOK_CLICK: requestedId = $bookId")
                             activity?.let {
                                 AdManager.showInterstitialOnTransition(it) {
                                     navController.navigate(Screen.BookDetails.createRoute(bookId))
@@ -218,13 +225,7 @@ fun AppNavigation(
                                 navController.popBackStack()
                             },
                             onReadClick = { id -> 
-                                activity?.let {
-                                    AdManager.showInterstitialOnTransition(it) {
-                                        navController.navigate(Screen.Reader.createRoute(id))
-                                    }
-                                } ?: run {
-                                    navController.navigate(Screen.Reader.createRoute(id))
-                                }
+                                navController.navigate(Screen.Reader.createRoute(id))
                             }
                         )
                     }

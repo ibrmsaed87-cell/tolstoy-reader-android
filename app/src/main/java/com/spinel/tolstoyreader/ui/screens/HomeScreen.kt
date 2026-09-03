@@ -204,38 +204,6 @@ fun HomeScreen(
                 }
             }
             
-            // 3.5 Rewarded Ad
-            item(span = { GridItemSpan(2) }) {
-                Spacer(modifier = Modifier.height(8.dp))
-                Button(
-                    onClick = {
-                        val activity = context as? android.app.Activity
-                        if (activity != null) {
-                            com.spinel.tolstoyreader.ads.AdManager.showRewardedAd(activity) {
-                                // Reward: an extra recommendation
-                                val randomBook = books.randomOrNull()
-                                if (randomBook != null) {
-                                    onBookClick(randomBook.id)
-                                }
-                            }
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth().height(56.dp),
-                    shape = RoundedCornerShape(16.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer
-                    )
-                ) {
-                    Icon(Icons.Default.PlayArrow, contentDescription = null, modifier = Modifier.size(20.dp))
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = stringResource(id = R.string.rewarded_ad_button), 
-                        style = MaterialTheme.typography.titleSmall, 
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-            }
             
             // 4. Library Header
             item(span = { GridItemSpan(2) }) {
@@ -259,7 +227,7 @@ fun HomeScreen(
                 }
                 if ((index + 1) % 6 == 0) {
                     item(span = { GridItemSpan(2) }) {
-                        NativeAdBanner()
+                        NativeAdBanner(adKey = "native_home_ad_${index / 6}")
                     }
                 }
             }
@@ -318,7 +286,9 @@ fun ContinueReadingCard(book: Book, onClick: () -> Unit, onFavoriteClick: () -> 
                     )
                 }
 
-                val progress = if (book.chapters.isNotEmpty()) {
+                val progress = if (book.totalChapters > 0) {
+                    ((book.currentChapterIndex + 1).toFloat() / book.totalChapters.toFloat()).coerceIn(0f, 1f)
+                } else if (book.chapters.isNotEmpty()) {
                     ((book.currentChapterIndex + 1).toFloat() / book.chapters.size.toFloat()).coerceIn(0f, 1f)
                 } else if (book.format == "pdf" && book.currentPdfPage > 0) {
                     0.5f // We don't know total pages for PDF

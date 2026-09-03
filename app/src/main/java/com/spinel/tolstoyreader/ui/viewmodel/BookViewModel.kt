@@ -38,6 +38,11 @@ class BookViewModel(
     val autoScrollSpeed: StateFlow<Float> = readingPrefs.autoScrollSpeedFlow.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 1.0f)
 
     private val _searchQuery = MutableStateFlow("")
+
+    fun getBookByIdFlow(id: String): kotlinx.coroutines.flow.Flow<Book?> {
+        return repository.getBookById(id)
+    }
+
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
 
     private val _currentQuote = MutableStateFlow<Quote?>(null)
@@ -67,16 +72,7 @@ class BookViewModel(
         initialValue = emptyList()
     )
 
-    private val _selectedBook = MutableStateFlow<Book?>(null)
-    val selectedBook: StateFlow<Book?> = _selectedBook.asStateFlow()
-
-    fun loadBook(id: String) {
-        viewModelScope.launch {
-            repository.getBookById(id).collect { book ->
-                _selectedBook.value = book
-            }
-        }
-    }
+    
 
     fun setFontSize(size: Float) {
         viewModelScope.launch { readingPrefs.setFontSize(size) }

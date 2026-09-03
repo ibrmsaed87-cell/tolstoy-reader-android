@@ -1,6 +1,7 @@
 package com.spinel.tolstoyreader.ui.screens
 
 import androidx.compose.foundation.background
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.rememberScrollState
@@ -43,12 +44,16 @@ fun BookDetailsScreen(
     onReadClick: (String) -> Unit
 ) {
     val context = LocalContext.current
-    LaunchedEffect(bookId) {
-        viewModel.loadBook(bookId)
+    val book by viewModel.getBookByIdFlow(bookId).collectAsStateWithLifecycle(initialValue = null)
+
+    LaunchedEffect(book) {
+        if (book != null) {
+            Log.d("BOOK_NAV", "BOOK_DETAILS: routeId = $bookId, resolvedId = ${book?.id}, resolvedTitle = ${book?.title}")
+            if (bookId != book?.id) {
+                Log.e("BOOK_NAV", "MISMATCH in BookDetailsScreen! routeId=$bookId, resolvedId=${book?.id}")
+            }
+        }
     }
-
-
-    val book by viewModel.selectedBook.collectAsStateWithLifecycle()
     val scrollState = rememberScrollState()
 
     Scaffold(
@@ -114,7 +119,8 @@ fun BookDetailsScreen(
                                 .height(240.dp)
                                 .aspectRatio(0.66f)
                                 .shadow(8.dp, RoundedCornerShape(8.dp))
-                                .clip(RoundedCornerShape(8.dp)),
+                                .clip(RoundedCornerShape(8.dp))
+                                .clickable { onReadClick(book!!.id) },
                             contentScale = ContentScale.Crop
                         )
                     }

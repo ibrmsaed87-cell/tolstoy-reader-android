@@ -42,6 +42,18 @@ class RemoteBookRepository(private val bookDao: BookDao) : BookRepository {
                 }
             }
             
+            val needsChapterCount = localBooks.filter { it.totalChapters == 0 && it.format == "json" }
+            if (needsChapterCount.isNotEmpty()) {
+                withContext(Dispatchers.IO) {
+                    needsChapterCount.forEach { entity ->
+                        val count = bookDao.getChapterCountSync(entity.id)
+                        if (count > 0) {
+                            bookDao.updateBook(entity.copy(totalChapters = count))
+                        }
+                    }
+                }
+            }
+            
             val mappedLocalBooks = localBooks.map { it.toDomainModel(emptyList()) }
             if (mappedLocalBooks.isNotEmpty()) {
                 // Group by seriesId
@@ -149,7 +161,9 @@ class RemoteBookRepository(private val bookDao: BookDao) : BookRepository {
                         
                         bookDao.insertChapters(chapterEntities)
                         
-                        domainBook = updatedEntity.toDomainModel(chapterEntities)
+                        val finalEntity = updatedEntity.copy(totalChapters = chapterEntities.size)
+                        bookDao.updateBook(finalEntity)
+                        domainBook = finalEntity.toDomainModel(chapterEntities)
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
@@ -269,6 +283,7 @@ class RemoteBookRepository(private val bookDao: BookDao) : BookRepository {
             description = description,
             content = chapters.joinToString("\n\n") { (it.title?.let { t -> "$t\n" } ?: "") + it.content }, // legacy compatibility
             chapters = chapters.map { Chapter(it.title, it.content) },
+            totalChapters = totalChapters,
             coverUrl = coverUrl,
             language = language,
             order = bookOrder,

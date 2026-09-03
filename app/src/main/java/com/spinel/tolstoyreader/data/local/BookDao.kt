@@ -52,6 +52,9 @@ interface BookDao {
     @Query("SELECT * FROM chapters WHERE bookId = :bookId ORDER BY chapterIndex ASC")
     fun getChaptersForBook(bookId: String): Flow<List<ChapterEntity>>
     
+    @Query("SELECT COUNT(*) FROM chapters WHERE bookId = :bookId")
+    suspend fun getChapterCountSync(bookId: String): Int
+    
     @Query("SELECT * FROM chapters WHERE bookId = :bookId ORDER BY chapterIndex ASC")
     suspend fun getChaptersForBookSync(bookId: String): List<ChapterEntity>
 

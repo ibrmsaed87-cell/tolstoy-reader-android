@@ -30,30 +30,18 @@ import com.google.android.gms.ads.nativead.NativeAdView
 import com.spinel.tolstoyreader.R
 
 @Composable
-fun NativeAdBanner() {
+fun NativeAdBanner(adKey: String = "default") {
     val context = LocalContext.current
     var nativeAd by remember { mutableStateOf<NativeAd?>(null) }
     var adLoaded by remember { mutableStateOf(false) }
 
-    DisposableEffect(Unit) {
-        val adLoader = AdLoader.Builder(context, AdManager.NATIVE_AD_UNIT_ID)
-            .forNativeAd { ad ->
-                nativeAd?.destroy()
-                nativeAd = ad
-                adLoaded = true
-            }
-            .withAdListener(object : AdListener() {
-                override fun onAdFailedToLoad(adError: LoadAdError) {
-                    adLoaded = false
-                }
-            })
-            .withNativeAdOptions(NativeAdOptions.Builder().build())
-            .build()
-
-        adLoader.loadAd(AdRequest.Builder().build())
-
+    DisposableEffect(adKey) {
+        AdManager.getNativeAd(context, adKey) { ad ->
+            nativeAd = ad
+            adLoaded = ad != null
+        }
         onDispose {
-            nativeAd?.destroy()
+            // Do not destroy nativeAd here because AdManager caches it!
         }
     }
 
@@ -61,11 +49,13 @@ fun NativeAdBanner() {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+                .padding(vertical = 16.dp, horizontal = 4.dp),
+            shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
         ) {
             AndroidView(
+                modifier = Modifier.fillMaxWidth(),
                 factory = { ctx ->
                     val inflater = LayoutInflater.from(ctx)
                     // We need a layout for the native ad. 

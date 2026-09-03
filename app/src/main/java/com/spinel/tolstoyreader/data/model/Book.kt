@@ -12,6 +12,7 @@ data class Book(
     val description: String = "",
     val content: String = "", // Legacy for combined content
     val chapters: List<Chapter> = emptyList(),
+    val totalChapters: Int = 0,
     val coverUrl: String? = null,
     val language: String = "en",
     val order: Int = 0,
