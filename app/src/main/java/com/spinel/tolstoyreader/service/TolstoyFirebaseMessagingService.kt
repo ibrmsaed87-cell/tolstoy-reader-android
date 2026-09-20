@@ -37,6 +37,9 @@ class TolstoyFirebaseMessagingService : FirebaseMessagingService() {
         val body = message.notification?.body ?: message.data["body"]
         val imageUrl = message.notification?.imageUrl?.toString() ?: message.data["image"]
         val url = message.data["url"]
+            ?: message.data["link"]
+            ?: message.data["action_url"]
+            ?: message.notification?.link?.toString()
 
         if (title != null || body != null) {
             CoroutineScope(Dispatchers.IO).launch {

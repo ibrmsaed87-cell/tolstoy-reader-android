@@ -99,17 +99,53 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun handleIntentUrl(intent: Intent?) {
-        val url = intent?.getStringExtra("action_url")
-        if (!url.isNullOrEmpty()) {
-            try {
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                startActivity(browserIntent)
-            } catch (e: ActivityNotFoundException) {
-                Log.e("MainActivity", "Failed to open URL: $url", e)
-                Toast.makeText(this, "Unable to open link", Toast.LENGTH_SHORT).show()
-            } catch (e: Exception) {
-                Log.e("MainActivity", "Unexpected error opening URL: $url", e)
+        val url = intent?.getStringExtra("url")
+            ?: intent?.getStringExtra("link")
+            ?: intent?.getStringExtra("action_url")
+            ?: intent?.dataString
+
+        if (url.isNullOrBlank()) return
+
+        try {
+            val uri = Uri.parse(url.trim())
+            val isWebLink = uri.scheme.equals("https", true) || uri.scheme.equals("http", true)
+            val isMarketLink = uri.scheme.equals("market", true)
+            if (!isWebLink && !isMarketLink) {
+                Log.w("MainActivity", "Blocked unsupported notification URL: $url")
+                return
             }
+
+            val playPackageId = when {
+                isMarketLink -> uri.getQueryParameter("id")
+                uri.host.equals("play.google.com", true) -> uri.getQueryParameter("id")
+                else -> null
+            }
+
+            if (!playPackageId.isNullOrBlank()) {
+                try {
+                    startActivity(
+                        Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$playPackageId"))
+                            .setPackage("com.android.vending")
+                    )
+                } catch (_: ActivityNotFoundException) {
+                    startActivity(
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("https://play.google.com/store/apps/details?id=$playPackageId")
+                        )
+                    )
+                }
+            } else {
+                startActivity(Intent(Intent.ACTION_VIEW, uri))
+            }
+
+            intent?.removeExtra("url")
+            intent?.removeExtra("link")
+            intent?.removeExtra("action_url")
+            intent?.data = null
+        } catch (e: Exception) {
+            Log.e("MainActivity", "Failed to open notification URL: $url", e)
+            Toast.makeText(this, "Unable to open link", Toast.LENGTH_SHORT).show()
         }
     }
 }
